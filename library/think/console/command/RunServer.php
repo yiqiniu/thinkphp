@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Slince <taosikai@yeah.net>
 // +----------------------------------------------------------------------
-namespace app\command;
+namespace think\console\command;
 
 use think\console\Command;
 use think\console\Input;
