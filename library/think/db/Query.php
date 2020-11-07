@@ -431,7 +431,7 @@ class Query
             if (empty($this->options['table'])) {
                 $this->options['table'] = $this->getTable();
             }
-            $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . $field . \Opis\Closure\serialize($this->options) . \Opis\Closure\serialize($this->bind));
+            $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . $field . think_serialize($this->options) . think_serialize($this->bind));
             $result = Cache::get($key);
         }
         if (false === $result) {
@@ -477,7 +477,7 @@ class Query
                 $this->options['table'] = $this->getTable();
             }
             if (date("G") > 1) {
-                $guid = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . $field . \Opis\Closure\serialize($this->options) . \Opis\Closure\serialize($this->bind));
+                $guid = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . $field . think_serialize($this->options) . think_serialize($this->bind));
                 $result = Cache::get($guid);
             }
         }
@@ -545,7 +545,7 @@ class Query
         if ($cache) {
             // 判断查询缓存
             if (date("G") > 1) {
-                $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . \Opis\Closure\serialize($this->options) . \Opis\Closure\serialize($this->bind) . 'count');
+                $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . think_serialize($this->options) . think_serialize($this->bind) . 'count');
                 $resultCount = Cache::get($key);
             }
         }
@@ -675,7 +675,7 @@ class Query
         }
         if ($lazyTime > 0) {
             // 延迟写入
-            $guid = md5($this->getTable() . '_' . $field . '_' . \Opis\Closure\serialize($condition) . \Opis\Closure\serialize($this->bind));
+            $guid = md5($this->getTable() . '_' . $field . '_' . think_serialize($condition) . think_serialize($this->bind));
             $step = $this->lazyWrite('inc', $guid, $step, $lazyTime);
             if (false === $step) {
                 // 清空查询条件
@@ -704,7 +704,7 @@ class Query
         }
         if ($lazyTime > 0) {
             // 延迟写入
-            $guid = md5($this->getTable() . '_' . $field . '_' . \Opis\Closure\serialize($condition) . \Opis\Closure\serialize($this->bind));
+            $guid = md5($this->getTable() . '_' . $field . '_' . think_serialize($condition) . think_serialize($this->bind));
             $step = $this->lazyWrite('dec', $guid, $step, $lazyTime);
             if (false === $step) {
                 // 清空查询条件
@@ -2519,7 +2519,7 @@ class Query
             $cache = $options['cache'];
             unset($options['cache']);
             if (date("G") > 1) {
-                $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . \Opis\Closure\serialize($options) . \Opis\Closure\serialize($this->bind));
+                $key = is_string($cache['key']) ? $cache['key'] : md5($this->connection->getConfig('database') . '.' . think_serialize($options) . think_serialize($this->bind));
                 $resultSet = Cache::get($key);
             }
         }
@@ -2628,7 +2628,7 @@ class Query
         }
 
         try {
-            return md5($prefix . \Opis\Closure\serialize($options) . \Opis\Closure\serialize($bind));
+            return md5($prefix . think_serialize($options) . think_serialize($bind));
         } catch (\Exception $e) {
             throw new Exception('closure not support cache(true)');
         }
@@ -2671,7 +2671,7 @@ class Query
             } elseif (is_string($cache['key'])) {
                 $key = $cache['key'];
             } elseif (!isset($key)) {
-                $key = md5($this->connection->getConfig('database') . '.' . \Opis\Closure\serialize($options) . \Opis\Closure\serialize($this->bind));
+                $key = md5($this->connection->getConfig('database') . '.' . think_serialize($options) . think_serialize($this->bind));
             }
             $result = Cache::get($key);
         }
